@@ -1,0 +1,10 @@
+-- NOTE: replace path/to/data with the actual file paths --
+
+\copy public.region FROM 'C:\Users\hanli\Desktop\Y4S1\CZ4031 Database System Principles\Project\Project 2\CZ4031_QEP_data\data\region.csv' delimiter '|' CSV;
+\copy public.nation FROM 'C:\Users\hanli\Desktop\Y4S1\CZ4031 Database System Principles\Project\Project 2\CZ4031_QEP_data\data\nation.csv' delimiter '|' CSV;
+\copy public.part FROM 'C:\Users\hanli\Desktop\Y4S1\CZ4031 Database System Principles\Project\Project 2\CZ4031_QEP_data\data\part.csv' delimiter '|' CSV;
+\copy public.supplier FROM 'C:\Users\hanli\Desktop\Y4S1\CZ4031 Database System Principles\Project\Project 2\CZ4031_QEP_data\data\supplier.csv' delimiter '|' CSV;
+\copy public.partsupp FROM 'C:\Users\hanli\Desktop\Y4S1\CZ4031 Database System Principles\Project\Project 2\CZ4031_QEP_data\data\partsupp.csv' delimiter '|' CSV;
+\copy public.customer FROM 'C:\Users\hanli\Desktop\Y4S1\CZ4031 Database System Principles\Project\Project 2\CZ4031_QEP_data\data\customer.csv' delimiter '|' CSV;
+\copy public.orders FROM 'C:\Users\hanli\Desktop\Y4S1\CZ4031 Database System Principles\Project\Project 2\CZ4031_QEP_data\data\orders.csv' delimiter '|' CSV;
+\copy public.lineitem FROM 'C:\Users\hanli\Desktop\Y4S1\CZ4031 Database System Principles\Project\Project 2\CZ4031_QEP_data\data\lineitem.csv' delimiter '|' CSV;
