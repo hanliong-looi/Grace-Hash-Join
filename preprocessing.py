@@ -28,4 +28,5 @@ class DBMS:
         return self.cur.fetchall()
 
     def explainQuery(self, query):
-        return self.executeQuery('EXPLAIN ' + query)
+        queryPlan = self.executeQuery('EXPLAIN (costs false, format json, verbose) ' + query)
+        return queryPlan[0][0][0]
