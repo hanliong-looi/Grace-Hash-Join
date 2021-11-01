@@ -15,7 +15,10 @@ where C.c_custkey =
 O.o_custkey;
 """
 
-qa = annotation.queryAnnotator(dbms.explainQuery(query))
-qa.traversePlan()
+qa = annotation.queryAnnotator()
+
+res = qa.annotateQuery(dbms.explainQuery(query))
+for i in range(len(res)):
+    print("Step {}: {}".format(i+1, res[i]))
 
 print("Operation done successfully")
