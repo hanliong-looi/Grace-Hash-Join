@@ -70,6 +70,37 @@ def hash_join_annotator(queryNode):
 
     return annotation
 
+# Function to annotate Nested Loop
+def nested_loop_annotator(queryNode):
+    name = "Nested Loop Join"
+
+    # Get type of join if any
+    join_type = "" if "Join Type" not in queryNode else queryNode["Join Type"]
+
+    # Get condition of join if any
+    join_condition = "" if "Join Filter" not in queryNode else "on join filter " + queryNode["Join Filter"]
+
+    # Build annotation string
+    annotation = "{} {} {}".format(join_type, name, join_condition)
+
+    return annotation
+
+# Function to annotate Merge Join
+def merge_join_annotator(queryNode):
+    name = "Merge Join"
+
+    # Get type of join if any
+    join_type = "" if "Join Type" not in queryNode else queryNode["Join Type"]
+
+    # Get condition of join if any
+    join_condition = "" if "Merge Cond" not in queryNode else "on condition " + queryNode["Merge Cond"]
+
+    # Build annotation string
+    annotation = "{} {} {}".format(join_type, name, join_condition)
+
+    return annotation
+
+# Function to annotate Sequential Scan
 def seq_scan_annotator(queryNode):
     scan_name = "Sequential Scan"
 
@@ -84,6 +115,28 @@ def seq_scan_annotator(queryNode):
 
     return annotation
 
+# Function to annotate Index Scan
+def index_scan_annotator(queryNode):
+    scan_name = "Index Scan"
+
+    # Get name of index attribute
+    index_name = queryNode["Index Name"]
+
+    # Get direction of index scan
+    direction = "" if "Scan Direction" not in queryNode else queryNode["Scan Direction"] + " "
+
+    # Get name of relation
+    relation_name = queryNode["Relation Name"]
+
+    # Get scan conditions if any
+    filter_message = "" if "Filter" not in queryNode else "on condition " + queryNode["Filter"]
+
+    # Build annotation string
+    annotation = "{}{} using {} on table {} {}".format(direction, scan_name, index_name, relation_name, filter_message)
+
+    return annotation
+
+# Function to annotate Hash
 def hash_annotator(queryNode):
     name = "Hash"
     
