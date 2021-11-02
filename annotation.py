@@ -131,17 +131,20 @@ def seq_scan_annotator(queryNode):
     # Get name of relation
     relation_name = queryNode["Relation Name"]
 
+    # Get alias of relation
+    alias_name = queryNode["Alias"]
+
     # Get scan conditions if any
     filter_message = "" if "Filter" not in queryNode else "on condition " + queryNode["Filter"]
 
     # Build annotation string
-    annotation = "{} on table {} {}".format(scan_name, relation_name, filter_message)
+    annotation = "{} on table {} with alias '{}' {}".format(scan_name, relation_name, alias_name, filter_message)
 
     return annotation
 
 # Function to annotate Index Scan or Index Only Scan
 def index_scan_annotator(queryNode):
-    scan_name = "Index Scan"
+    scan_name = queryNode["Node Type"]
 
     # Get name of index attribute
     index_name = queryNode["Index Name"]
@@ -243,14 +246,12 @@ def subquery_scan_annotator(queryNode):
 
     return annotation
 
-
-
 # Function to annotate Hash
 def hash_annotator(queryNode):
     name = "Hash"
     
     # Get name of relation if any
-    relation_name = "" if "Relation Name" not in queryNode else "on table {}".format(queryNode["Plans"][0]["Relation Name"])
+    relation_name = "" if "Relation Name" not in queryNode["Plans"][0] else "on table {}".format(queryNode["Plans"][0]["Relation Name"])
 
     # Get hash condition if any
     condition = "" if "Hash Cond" not in queryNode else "on condition " + queryNode["Hash Cond"]
@@ -289,12 +290,22 @@ def aggregate_annotator(queryNode):
 
     # Get aggregate condition 
     if "Group Key" in queryNode:
-        aggregate_cond = "based on the table " + queryNode["Group Key"][0]
-    else:
-        aggregate_cond = "to get " + queryNode["Output"][0]
+        aggregate_cond = "based on the attributes "
+        for i, group_key in enumerate(queryNode["Group Key"]):
+            if i > 0:
+                aggregate_cond += ", "
+            aggregate_cond += group_key
+                
+    # Get outputs
+    if "Output" in queryNode:
+        output_annotation = "to output the columns "
+        for i, output in enumerate(queryNode["Output"]):
+            if i > 0:
+                output_annotation += ", "
+            output_annotation += output
 
     # Build annotation string
-    annotation = "{} {}".format(name, aggregate_cond)
+    annotation = "{} {} {}".format(name, aggregate_cond, output_annotation)
 
     return annotation
 
@@ -311,7 +322,7 @@ def limit_annotator(queryNode):
     num_rows = queryNode["Plan Rows"]
 
     # Build annotation string
-    annotation = "Limit to the top {} rows".format(num_rows)
+    annotation = "Limit the result to the top {} rows".format(num_rows)
 
     return annotation
 
