@@ -155,11 +155,14 @@ def index_scan_annotator(queryNode):
     # Get name of relation
     relation_name = queryNode["Relation Name"]
 
+    # Get alias of relation
+    alias_name = queryNode["Alias"]
+
     # Get scan conditions if any
     filter_message = "" if "Filter" not in queryNode else "on condition " + queryNode["Filter"]
 
     # Build annotation string
-    annotation = "{}{} using {} on table {} {}".format(direction, scan_name, index_name, relation_name, filter_message)
+    annotation = "{}{} using {} on table {} with alias '{}' {}".format(direction, scan_name, index_name, relation_name, alias_name, filter_message)
 
     return annotation
 
@@ -252,6 +255,8 @@ def hash_annotator(queryNode):
     
     # Get name of relation if any
     relation_name = "" if "Relation Name" not in queryNode["Plans"][0] else "on table {}".format(queryNode["Plans"][0]["Relation Name"])
+    if relation_name == "":
+        relation_name = "on the result in the previous step"
 
     # Get hash condition if any
     condition = "" if "Hash Cond" not in queryNode else "on condition " + queryNode["Hash Cond"]

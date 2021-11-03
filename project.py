@@ -8,6 +8,9 @@ dbms = preprocessing.DBMS(pw)
 # query = dbms.getQuery()
 # queryPlan = dbms.explainQuery(query)
 
+# for row in queryPlan:
+#     print(row)
+
 queryPlan = test_jsons.test6
 
 qa = annotation.queryAnnotator()
