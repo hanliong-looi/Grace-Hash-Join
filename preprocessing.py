@@ -15,6 +15,7 @@ class DBMS:
 
     def getQuery(self):
         print('Enter your query: ')
+        # return input()
         query = []
         query.append(input())
         while query[-1][-1] != ';':
@@ -29,4 +30,4 @@ class DBMS:
 
     def explainQuery(self, query):
         queryPlan = self.executeQuery('EXPLAIN (costs false, format json, verbose) ' + query)
-        return queryPlan[0][0][0]
+        return queryPlan[0][0]

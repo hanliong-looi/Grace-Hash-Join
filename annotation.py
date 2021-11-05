@@ -36,7 +36,8 @@ class queryAnnotator:
         # Order of query execution
         queryOrder = []
 
-        # Push root node of query plan onto stack
+        # Annotate root node of query plan and push it onto stack
+        queryPlan["Plan"]["Annotation"] = self.annotateQueryNode(queryPlan["Plan"])
         stack.append(queryPlan["Plan"])
 
         # Perform left child DFS on query plan
@@ -50,28 +51,35 @@ class queryAnnotator:
                 continue
 
             # Add children of current node to stack
-            for plan in node["Plans"]:
-                stack.append(plan)
+            for child in node["Plans"]:
+                child["Annotation"] = self.annotateQueryNode(child)
+                stack.append(child)
 
-        return queryOrder
+        return queryOrder, queryPlan
 
     # Annotates given query plan
-    def annotateQuery(self, queryPlan):
+    def annotateQueryPlan(self, queryPlan):
         # Array of annotations of query
         result = []
 
-        # Get order of query execution
-        queryOrder = self.traversePlan(queryPlan)
+        # Annotate and get order of query execution
+        queryOrder, annotatedQueryPlan = self.traversePlan(queryPlan)
 
         # Iteratively pop top most query from stack to annotate
         while len(queryOrder) > 0:
             # Get annotation for current query
             queryNode = queryOrder.pop()
-            if queryNode["Node Type"] not in self.queryMapper:
-                print("Cannot find annotation for this query: {}".format(queryNode["Node Type"]))
-                continue
-            result.append(self.queryMapper[queryNode["Node Type"]](queryNode))
-        return result
+            result.append(queryNode["Annotation"])
+        return result, annotatedQueryPlan
+
+    # Annotate given query node
+    def annotateQueryNode(self, queryNode):
+        if queryNode["Node Type"] not in self.queryMapper:
+            print("Cannot find annotation for this query: {}".format(queryNode["Node Type"]))
+            return queryNode["Node Type"]
+        else:
+            return self.queryMapper[queryNode["Node Type"]](queryNode)
+
     
 
 
