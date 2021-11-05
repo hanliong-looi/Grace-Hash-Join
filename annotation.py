@@ -353,6 +353,6 @@ def gather_annotator(queryNode):
     name = queryNode["Node Type"]
 
     # Build annotation string
-    annotation = "{} on the output".format(name)
+    annotation = "{} on the result".format(name)
 
     return annotation
