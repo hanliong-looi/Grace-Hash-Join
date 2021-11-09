@@ -31,8 +31,13 @@ class DBMS:
         return joined
 
     def executeQuery(self, query):
-        self.cur.execute(query)
-        return self.cur.fetchall()
+        try:
+            self.cur.execute(query)
+            self.con.commit()
+            return self.cur.fetchall()
+        except Exception as e:
+            self.con.rollback()
+            raise e
 
     def explainQuery(self, query):
         queryPlan = self.executeQuery('EXPLAIN (costs false, format json, verbose) ' + query)
