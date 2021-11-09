@@ -2,7 +2,7 @@ from flask import render_template, Flask, jsonify, request
 import preprocessing
 import project
 
-app = flask.Flask("__main__")
+app = Flask("__main__")
 test_input = 'select * from customer C, orders O where C.c_custkey = O.o_custkey;'
 
 connected = False
