@@ -1,21 +1,27 @@
 import psycopg2
 
 class DBMS:
-    def __init__(self, pw):
-        self.con = self.connect(pw)
-        self.cur = self.con.cursor()
+    def __init__(self):
+        self.con = None
+        self.cur = None
     
     def __del__(self):
-        self.con.close()
+        if self.con:
+            self.con.close()
 
     def connect(self, pw):
-        con = psycopg2.connect(database="TPC-H", user="postgres", password=pw, host="127.0.0.1", port="5432")
-        print("Database opened successfully")
-        return con
+        try:
+            self.con = psycopg2.connect(database="TPC-H", user="postgres", password=pw, host="127.0.0.1", port="5432")
+            print("Database opened successfully")
+            self.cur = self.con.cusor()
+            return True
+        except:
+            self.con = None
+            print('Failed to connect to database')
+            return False
 
     def getQuery(self):
         print('Enter your query: ')
-        # return input()
         query = []
         query.append(input())
         while query[-1][-1] != ';':
