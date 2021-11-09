@@ -13,7 +13,7 @@ class DBMS:
         try:
             self.con = psycopg2.connect(database="TPC-H", user="postgres", password=pw, host="127.0.0.1", port="5432")
             print("Database opened successfully")
-            self.cur = self.con.cusor()
+            self.cur = self.con.cursor()
             return True
         except:
             self.con = None

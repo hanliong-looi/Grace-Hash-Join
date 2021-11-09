@@ -1,2 +1,3 @@
 select * from customer C, orders O where C.c_custkey = O.o_custkey;
 
+Select AVG(p_retailprice) From part Group by (p_partkey) Order by p_type;
