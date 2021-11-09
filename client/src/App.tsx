@@ -1,18 +1,16 @@
 import React from 'react';
-import { Button } from 'antd';
+import { Typography} from 'antd';
+import Container from './container'
 import './App.css';
 
+// const test_input = 'select * from customer C, orders O where C.c_custkey = O.o_custkey;'
+const { Title } = Typography;
 const App = () => {
-    function onclick(){
-        fetch("/api/get_query")
-        .then(response => response.json())
-        .then(data => console.log(data));
-    }
 
     return (
-        <div className="App">
-            <Button onClick={onclick} type="primary">Button</Button>
-            With Antd
+        <div className="App" style={{padding: 20}}>
+            <Title>Query Execution Plan Annotator - Group 41</Title>
+            <Container/>
         </div>
 )};
 

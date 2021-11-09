@@ -1,0 +1,13 @@
+.main-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.sql-container {
+    width: 40%;
+}
+
+.plan-container{
+    text-align: center;
+}
