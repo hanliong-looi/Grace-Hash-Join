@@ -2,9 +2,14 @@ from flask import render_template, Flask, jsonify, request
 import preprocessing
 import project
 
-app = Flask("__main__")
-pw = input("Please enter password for postgres: ")
-dbms = preprocessing.DBMS(pw)
+app = flask.Flask("__main__")
+test_input = 'select * from customer C, orders O where C.c_custkey = O.o_custkey;'
+
+connected = False
+while not connected:
+    dbms = preprocessing.DBMS()
+    pw = input("Please enter password for postgres: ")
+    connected = dbms.connect(pw)
 
 @app.route("/")
 def my_index():
