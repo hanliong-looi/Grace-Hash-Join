@@ -3,7 +3,6 @@ import preprocessing
 import project
 
 app = Flask("__main__")
-test_input = 'select * from customer C, orders O where C.c_custkey = O.o_custkey;'
 
 connected = False
 while not connected:
@@ -23,13 +22,12 @@ def text_api():
 def get_query():
     request_data = request.get_json()
     query_str = request_data["query"]
-
     app.logger.info(f'received data from client: {query_str}')
     try:
-        res, plan = project.annotate_query(query_str, dbms)
-        return jsonify({"plan": plan, "instructions": res, "error": 0, "error_message":""})
-    except:
-        return jsonify({"plan":"", "instructions":"", "error":1, "error_message":"Incorrect SQL Query"})
+        res, plan, e_msg = project.annotate_query(query_str, dbms)
+        return jsonify({"plan": plan, "instructions": res, "error": 0, "error_message":e_msg})
+    except Exception as e_msg:
+        return jsonify({"plan":"", "instructions":"", "error":1, "error_message":f"Incorrect SQL Query: {e_msg}"})
 
     
 

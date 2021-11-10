@@ -20,16 +20,6 @@ class DBMS:
             print('Failed to connect to database')
             return False
 
-    def getQuery(self):
-        print('Enter your query: ')
-        query = []
-        query.append(input())
-        while query[-1][-1] != ';':
-            query.append(input())
-
-        joined = ' '.join(query)
-        return joined
-
     def executeQuery(self, query):
         try:
             self.cur.execute(query)
