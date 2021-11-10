@@ -37,7 +37,7 @@ class DBMS:
             return self.cur.fetchall()
         except Exception as e:
             self.con.rollback()
-            raise e
+            raise ValueError(e)
 
     def explainQuery(self, query):
         queryPlan = self.executeQuery('EXPLAIN (costs false, format json, verbose) ' + query)

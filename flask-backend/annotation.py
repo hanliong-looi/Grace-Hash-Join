@@ -62,6 +62,9 @@ class queryAnnotator:
         # Array of annotations of query
         result = []
 
+        # Array of unannotated queries
+        invalid_query_nodes = []
+
         # Annotate and get order of query execution
         queryOrder, annotatedQueryPlan = self.traversePlan(queryPlan)
 
@@ -69,16 +72,28 @@ class queryAnnotator:
         while len(queryOrder) > 0:
             # Get annotation for current query
             queryNode = queryOrder.pop()
-            result.append(queryNode["Annotation"])
+            annotation = queryNode["Annotation"]
+            if annotation == "":
+                annotation = queryNode["Node Type"]
+                invalid_query_nodes.append(queryNode["Node Type"])
+            result.append(annotation)
             if len(queryOrder) == 0:
                 result.append(final_select_annotator(queryNode))
-        return result, annotatedQueryPlan
+
+        error_string = ""
+        for i, invalid_node in enumerate(invalid_query_nodes):
+            if i > 0:
+                error_string += ", "
+            error_string += invalid_node
+        if error_string:
+            error_string = "Cannot find annotation for the following query nodes: " + error_string
+        return result, annotatedQueryPlan, error_string
 
     # Annotate given query node
     def annotateQueryNode(self, queryNode):
         if queryNode["Node Type"] not in self.queryMapper:
             print("Cannot find annotation for this query: {}".format(queryNode["Node Type"]))
-            return queryNode["Node Type"]
+            return ""
         else:
             return self.queryMapper[queryNode["Node Type"]](queryNode)
 
