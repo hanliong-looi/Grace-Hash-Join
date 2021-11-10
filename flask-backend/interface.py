@@ -25,8 +25,12 @@ def get_query():
     query_str = request_data["query"]
 
     app.logger.info(f'received data from client: {query_str}')
-    res, plan = project.annotate_query(query_str, dbms)
+    try:
+        res, plan = project.annotate_query(query_str, dbms)
+        return jsonify({"plan": plan, "instructions": res, "error": 0, "error_message":""})
+    except:
+        return jsonify({"plan":"", "instructions":"", "error":1, "error_message":"Incorrect SQL Query"})
 
-    return jsonify({"plan": plan, "instructions": res})
+    
 
 app.run(debug=False)

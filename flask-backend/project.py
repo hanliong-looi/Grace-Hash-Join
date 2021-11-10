@@ -1,11 +1,11 @@
 import annotation
 import preprocessing
 
-pw = input("Please enter password for postgres: ")
-dbms = preprocessing.DBMS(pw)
+# pw = input("Please enter password for postgres: ")
+# dbms = preprocessing.DBMS(pw)
 
-query = dbms.getQuery()
-queryPlan = dbms.explainQuery(query)
+# query = dbms.getQuery()
+# queryPlan = dbms.explainQuery(query)
 
 # for row in queryPlan:
 #     print(row)
