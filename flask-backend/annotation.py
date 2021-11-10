@@ -20,6 +20,7 @@ class queryAnnotator:
             "Sort" : sort_annotator,
             "Append" : append_annotator,
             "Aggregate" : aggregate_annotator,
+            "Group" : group_annotator,
             "Materialize" : materialize_annotator,
             "Unique" : unique_annotator,
             "Limit" : limit_annotator,
