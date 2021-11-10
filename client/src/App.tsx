@@ -8,7 +8,7 @@ const { Title } = Typography;
 const App = () => {
 
     return (
-        <div className="App" style={{padding: 20}}>
+        <div className="App" style={{padding: '20px 40px'}}>
             <Title>Query Execution Plan Annotator - Group 41</Title>
             <Container/>
         </div>
