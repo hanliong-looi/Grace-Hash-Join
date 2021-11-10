@@ -339,6 +339,22 @@ def aggregate_annotator(queryNode):
 
     return annotation
 
+# Function to annotate Group
+def group_annotator(queryNode):
+    name = "Group"
+
+    group_cond = "by the attribute"
+    if len(queryNode["Group Key"]) > 1:
+        group_cond += "s"
+    for i, key in queryNode["Group Key"]:
+        if i > 0:
+            group_cond += ", "
+        group_cond += key
+    
+    annotation = "{} {}".format(name, group_cond)
+
+    return annotation
+
 # Function to annotate Materialize
 def materialize_annotator():
     return "Materialize output into memory"
