@@ -2,10 +2,11 @@ import React, {useState} from 'react';
 import CodeMirror from '@uiw/react-codemirror';
 import { PostgreSQL, sql } from '@codemirror/lang-sql';
 import { Typography, Button, Input, message } from 'antd';
+import {CopyOutlined} from "@ant-design/icons"
 import ReactFlow from 'react-flow-renderer';
 import './index.css'
 
-const {Title} = Typography
+const {Title, Paragraph} = Typography
 const {TextArea} = Input
 const Container:React.FC = () => {
     const [query, setQuery] = useState('')
@@ -48,9 +49,8 @@ const Container:React.FC = () => {
                 }
             }
         }
-        console.log(graphPlan)
+        console.log(JSON.stringify(graphPlan))
         dfs(root, 0, 10)
-        console.log('created graph', [...elements, ...edges])
         setGraph([...elements, ...edges])
     }
     const onclick = () => {
@@ -96,28 +96,42 @@ const Container:React.FC = () => {
         <>
         <div className="main-container">
             <div className="sql-container">
-                <Title level={3}>SQL Query</Title>
+                <Title level={3}>Query Panel</Title>
                 <CodeMirror
                     value={query}
-                    height={'300px'}
+                    height={'280px'}
                     onChange={value => setQuery(value)}
                     extensions={[sql({dialect: PostgreSQL})]}
                     placeholder={'Input SQL Query here'}
                     />
                 <div style={{display: 'flex', justifyContent:'flex-end', marginTop: 20}}>
-                    <Button type="primary" onClick={onclick}>Annotate Query</Button>
-                    <Button style={{marginLeft: 10}} onClick={onclear}>Clear</Button>
+                    <Button size="large" type="primary" onClick={onclick}>Annotate</Button>
+                    <Button size="large" style={{marginLeft: 10}} onClick={onclear}>Clear</Button>
                 </div>
                 
             </div>
             <div className="plan-container">
-                <Title level={3}>Execution Plan</Title>
-                <TextArea value={plan} style={{height: 300}}/>
-                {graph.length !== 0 && <Button type="primary" style={{marginTop: 20}} onClick={() => {setGraphVisible(true)}}>Visualise</Button>}
+                <div className="exe-plan">
+                    <Title level={3}>
+                        Execution Plan
+                        {plan !== '' && <CopyOutlined style={{marginLeft: 7, cursor:'pointer', fontSize: 17}} onClick={() => {
+                            if(plan){
+                                navigator.clipboard.writeText(plan).then(() => {
+                                    message.info('Successfully Copied Text')
+                                })
+                            }
+                        }}/>}
+                    </Title>
+                </div>
+                <TextArea value={plan} style={{height: 280}}/>
+                {graph.length !== 0 && <Button size="large" type="primary" style={{marginTop: 20}} onClick={() => {setGraphVisible(true)}}>Visualise</Button>}
             </div>
 
         </div>
-        {graphVisible && (<div>
+        {graphVisible && (
+        <div style={{display: 'flex', justifyContent:'center', marginTop: 10}}>
+            <Title level={3}>Visualisation Panel</Title>
+            <Paragraph>You can interact with the graph using pinch to zoom and dragging left and right.</Paragraph>
             <ReactFlow elements={graph} style={{height: 400, marginTop: 20}} />
         </div>)}
       </>

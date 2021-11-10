@@ -20,3 +20,13 @@ textarea.ant-input {
 .ͼ1 .cm-content {
     font-size: 16px;
 }
+
+.exe-plan {
+    display: flex;
+    align-items: center;
+}
+
+.ant-btn-lg {
+    height: 36px;
+    padding: 6px 15px;
+}
