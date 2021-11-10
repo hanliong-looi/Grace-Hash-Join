@@ -70,6 +70,8 @@ class queryAnnotator:
             # Get annotation for current query
             queryNode = queryOrder.pop()
             result.append(queryNode["Annotation"])
+            if len(queryOrder) == 0:
+                result.append(final_select_annotator(queryNode))
         return result, annotatedQueryPlan
 
     # Annotate given query node
@@ -354,5 +356,17 @@ def gather_annotator(queryNode):
 
     # Build annotation string
     annotation = "{} on the result".format(name)
+
+    return annotation
+
+# Adds final annotation to only output selected attributes
+def final_select_annotator(queryNode):
+    outputs = ""
+    for i, output in enumerate(queryNode["Output"]):
+        if i > 0:
+            outputs += ", "
+        outputs += output
+
+    annotation = "Select the attributes {} as the final result".format(outputs)
 
     return annotation

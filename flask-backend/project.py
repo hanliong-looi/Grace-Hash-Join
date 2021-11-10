@@ -1,14 +1,14 @@
 import annotation
 import preprocessing
 
-# pw = input("Please enter password for postgres: ")
-# dbms = preprocessing.DBMS(pw)
+# connected = False
+# while not connected:
+#     dbms = preprocessing.DBMS()
+#     pw = input("Please enter password for postgres: ")
+#     connected = dbms.connect(pw)
 
 # query = dbms.getQuery()
 # queryPlan = dbms.explainQuery(query)
-
-# for row in queryPlan:
-#     print(row)
 
 # queryPlan = test_jsons.test6
 
@@ -21,3 +21,6 @@ def annotate_query(query, dbms):
     queryPlan = dbms.explainQuery(query)
     return QA.annotateQueryPlan(queryPlan[0])
 
+# res, plan = annotate_query(query, dbms)
+# for step in res:
+#     print(step)
