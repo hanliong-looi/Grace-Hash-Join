@@ -1,0 +1,6 @@
+@import '~antd/dist/antd.css';
+
+.ant-btn-lg {
+    height: 36px;
+    padding: 6px 15px;
+}

@@ -20,6 +20,7 @@ class queryAnnotator:
             "Sort" : sort_annotator,
             "Append" : append_annotator,
             "Aggregate" : aggregate_annotator,
+            "Group" : group_annotator,
             "Materialize" : materialize_annotator,
             "Unique" : unique_annotator,
             "Limit" : limit_annotator,
@@ -62,6 +63,9 @@ class queryAnnotator:
         # Array of annotations of query
         result = []
 
+        # Array of unannotated queries
+        invalid_query_nodes = []
+
         # Annotate and get order of query execution
         queryOrder, annotatedQueryPlan = self.traversePlan(queryPlan)
 
@@ -69,14 +73,28 @@ class queryAnnotator:
         while len(queryOrder) > 0:
             # Get annotation for current query
             queryNode = queryOrder.pop()
-            result.append(queryNode["Annotation"])
-        return result, annotatedQueryPlan
+            annotation = queryNode["Annotation"]
+            if annotation == "":
+                annotation = queryNode["Node Type"]
+                invalid_query_nodes.append(queryNode["Node Type"])
+            result.append(annotation)
+            if len(queryOrder) == 0:
+                result.append(final_select_annotator(queryNode))
+
+        error_string = ""
+        for i, invalid_node in enumerate(invalid_query_nodes):
+            if i > 0:
+                error_string += ", "
+            error_string += invalid_node
+        if error_string:
+            error_string = "Cannot find annotation for the following query nodes: " + error_string
+        return result, annotatedQueryPlan, error_string
 
     # Annotate given query node
     def annotateQueryNode(self, queryNode):
         if queryNode["Node Type"] not in self.queryMapper:
             print("Cannot find annotation for this query: {}".format(queryNode["Node Type"]))
-            return queryNode["Node Type"]
+            return ""
         else:
             return self.queryMapper[queryNode["Node Type"]](queryNode)
 
@@ -322,6 +340,22 @@ def aggregate_annotator(queryNode):
 
     return annotation
 
+# Function to annotate Group
+def group_annotator(queryNode):
+    name = "Group"
+
+    group_cond = "by the attribute"
+    if len(queryNode["Group Key"]) > 1:
+        group_cond += "s"
+    for i, key in queryNode["Group Key"]:
+        if i > 0:
+            group_cond += ", "
+        group_cond += key
+    
+    annotation = "{} {}".format(name, group_cond)
+
+    return annotation
+
 # Function to annotate Materialize
 def materialize_annotator():
     return "Materialize output into memory"
@@ -354,5 +388,17 @@ def gather_annotator(queryNode):
 
     # Build annotation string
     annotation = "{} on the result".format(name)
+
+    return annotation
+
+# Adds final annotation to only output selected attributes
+def final_select_annotator(queryNode):
+    outputs = ""
+    for i, output in enumerate(queryNode["Output"]):
+        if i > 0:
+            outputs += ", "
+        outputs += output
+
+    annotation = "Select the attributes {} as the final result".format(outputs)
 
     return annotation

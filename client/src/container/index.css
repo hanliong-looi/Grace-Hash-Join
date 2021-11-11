@@ -1,0 +1,32 @@
+.main-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin: 0px 30px;
+}
+
+.sql-container {
+    width: 45%;
+}
+
+.plan-container{
+    width: 45%;
+}
+
+textarea.ant-input {
+    font-size: 16px;
+}
+
+.ͼ1 .cm-content {
+    font-size: 16px;
+}
+
+.exe-plan {
+    display: flex;
+    align-items: center;
+}
+
+.ant-btn-lg {
+    height: 36px;
+    padding: 6px 15px;
+}
