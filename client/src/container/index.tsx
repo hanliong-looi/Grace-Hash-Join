@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
 import CodeMirror from '@uiw/react-codemirror';
 import { PostgreSQL, sql } from '@codemirror/lang-sql';
-import { Typography, Button, Input, message } from 'antd';
-import {CopyOutlined} from "@ant-design/icons"
+import { Typography, Button, Input, message, Popover } from 'antd';
+import { CopyOutlined, InfoCircleOutlined } from "@ant-design/icons"
 import ReactFlow from 'react-flow-renderer';
 import './index.css'
 
-const {Title, Paragraph} = Typography
+const {Title} = Typography
 const {TextArea} = Input
 const Container:React.FC = () => {
     const [query, setQuery] = useState('')
@@ -44,8 +44,8 @@ const Container:React.FC = () => {
                 if (root.Plans.length === 1){
                     dfs(root.Plans[0], x, y + 100, node_id)
                 } else if (root.Plans.length === 2){
-                    dfs(root.Plans[0], x - 125, y + 100, node_id)
-                    dfs(root.Plans[1], x + 125, y + 100, node_id)
+                    dfs(root.Plans[0], x - 125, y + 75, node_id)
+                    dfs(root.Plans[1], x + 125, y + 75, node_id)
                 }
             }
         }
@@ -75,6 +75,8 @@ const Container:React.FC = () => {
             if(data.error !== 0){
                 message.error(data.error_message)
                 return
+            } else if (data.error_message){
+                message.warn(data.error_message)
             }
             const plan_raw = data.instructions
             let temp = ""
@@ -114,7 +116,7 @@ const Container:React.FC = () => {
                 <div className="exe-plan">
                     <Title level={3}>
                         Execution Plan
-                        {plan !== '' && <CopyOutlined style={{marginLeft: 7, cursor:'pointer', fontSize: 17}} onClick={() => {
+                        {plan !== '' && <CopyOutlined style={{marginLeft: 7,marginTop:-2, cursor:'pointer', fontSize: 17}} onClick={() => {
                             if(plan){
                                 navigator.clipboard.writeText(plan).then(() => {
                                     message.info('Successfully Copied Text')
@@ -128,12 +130,15 @@ const Container:React.FC = () => {
             </div>
 
         </div>
-        {graphVisible && (
-        <div style={{display: 'flex', justifyContent:'center', marginTop: 10}}>
+        <div style={{display: 'flex', flexDirection:'column', alignItems:'center', marginTop: 20}}>
+            <div style={{display: 'flex', alignItems:'center'}}>
             <Title level={3}>Visualisation Panel</Title>
-            <Paragraph>You can interact with the graph using pinch to zoom and dragging left and right.</Paragraph>
-            <ReactFlow elements={graph} style={{height: 400, marginTop: 20}} />
-        </div>)}
+            <Popover content="You can interact with the graph using pinch to zoom and dragging left and right.">
+                <InfoCircleOutlined style={{marginLeft: 4, fontSize: 17, marginTop: -10}}  />
+            </Popover>
+            </div>
+            {graphVisible && <ReactFlow elements={graph} style={{height: 400}} />}
+        </div>
       </>
     )
 }
