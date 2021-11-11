@@ -60,3 +60,8 @@ To start the application, run the following line
 ```
 python interface.py
 ```
+
+In the terminal, you will be prompted to enter your PostgreSQL password
+Type in your password to connect to the database
+
+Go to your browser (e.g Chrome, Firefox, etc.) and type the URL localhost:5000
