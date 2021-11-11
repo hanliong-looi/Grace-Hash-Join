@@ -21,7 +21,7 @@ const publicUrlOrPath = getPublicUrlOrPath(
   process.env.PUBLIC_URL
 );
 
-const buildPath = process.env.BUILD_PATH || '../flask-backend/static/react';
+const buildPath = process.env.BUILD_PATH || '../static/react';
 
 const moduleFileExtensions = [
   'web.mjs',

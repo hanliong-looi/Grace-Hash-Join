@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/static/react/css/main.9c85567c.chunk.css",
-    "main.js": "/static/react/js/main.f7c5a4cf.chunk.js",
-    "main.js.map": "/static/react/js/main.f7c5a4cf.chunk.js.map",
+    "main.js": "/static/react/js/main.c86c9570.chunk.js",
+    "main.js.map": "/static/react/js/main.c86c9570.chunk.js.map",
     "runtime-main.js": "/static/react/js/runtime-main.4df58e38.js",
     "runtime-main.js.map": "/static/react/js/runtime-main.4df58e38.js.map",
     "css/2.a95be28f.chunk.css": "/static/react/css/2.a95be28f.chunk.css",
@@ -13,13 +13,14 @@
     "../../templates/index.html": "/static/react/../../templates/index.html",
     "css/2.a95be28f.chunk.css.map": "/static/react/css/2.a95be28f.chunk.css.map",
     "css/main.9c85567c.chunk.css.map": "/static/react/css/main.9c85567c.chunk.css.map",
-    "js/2.cbc8089d.chunk.js.LICENSE.txt": "/static/react/js/2.cbc8089d.chunk.js.LICENSE.txt"
+    "js/2.cbc8089d.chunk.js.LICENSE.txt": "/static/react/js/2.cbc8089d.chunk.js.LICENSE.txt",
+    "media/favicon.4587ce60.png": "/static/react/media/favicon.4587ce60.png"
   },
   "entrypoints": [
     "js/runtime-main.4df58e38.js",
     "css/2.a95be28f.chunk.css",
     "js/2.cbc8089d.chunk.js",
     "css/main.9c85567c.chunk.css",
-    "js/main.f7c5a4cf.chunk.js"
+    "js/main.c86c9570.chunk.js"
   ]
 }

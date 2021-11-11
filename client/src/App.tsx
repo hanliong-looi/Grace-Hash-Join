@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {Button, Layout, Typography, Modal, Collapse} from 'antd';
+import logo from './favicon.png'
 import Container from './container'
 import './App.css';
 
@@ -25,7 +26,8 @@ const App = () => {
     return (
         <div className="App">
             <Header style={{display: 'flex', alignItems:'center', backgroundColor:'#fff', boxShadow: "0 2px 8px #f0f1f2"}}>
-                <Title style={{marginBottom: 0}} level={2}>QEP Annotator - Group 41</Title>
+                <img src={logo} alt="doge" style={{width: 32, height:32}} />
+                <Title style={{marginBottom: 0, marginLeft: 6}} level={2}>QEP Annotator - Group 41</Title>
                 <Button style={{marginLeft: 21, marginTop: 3}} onClick={showModal} size="middle">Database Schema</Button> 
             </Header>
             <div style={{padding: '20px 40px'}}>
